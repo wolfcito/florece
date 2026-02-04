@@ -89,11 +89,21 @@ src/
 
 ## Documentation
 
-Detailed documentation is available in the `/docs` directory:
+**📚 [Complete Documentation Index →](docs/README.md)**
 
-- **[docs/principles.md](docs/principles.md)** - Non-negotiable rules, audio-first guidelines, scope
-- **[docs/architecture.md](docs/architecture.md)** - System diagram, data model, security notes
-- **[docs/tools.md](docs/tools.md)** - Agent tool contracts and invariants
+Quick links:
+
+- **[AGENTS.md](docs/AGENTS.md)** - **START HERE if you're an AI agent**
+- **[PRD](docs/prd.md)** - Product vision and success metrics
+- **[Architecture](docs/architecture.md)** - System design and layer responsibilities
+- **[Data Model](docs/data-model.md)** - Firestore schema specification
+- **[API Reference](docs/api.md)** - All endpoints with examples
+- **[Security](docs/security.md)** - PII, secrets, and access control
+- **[Development](docs/dev.md)** - Setup, workflows, troubleshooting
+- **[Scope](docs/scope.md)** - Milestones and definition of done
+- **[Decision Log](docs/decision-log.md)** - Why we made key choices
+
+See [docs/](docs/) for complete documentation.
 
 ## Environment Variables
 
