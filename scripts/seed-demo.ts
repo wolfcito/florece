@@ -13,6 +13,12 @@
  *   pnpm seed-demo --reset (clears all data first)
  */
 
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+// Load environment variables
+config({ path: resolve(__dirname, '../.env.local') });
+
 import { initializeFirebaseAdmin } from '../src/lib/firebase/admin';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirebaseClient } from '../src/lib/firebase/client';
@@ -135,10 +141,13 @@ async function createDemoUser() {
     return userCredential.user.uid;
   } catch (error: any) {
     if (error.code === 'auth/email-already-in-use') {
-      console.log('⚠️  User already exists, continuing...');
-      // For demo purposes, we'll use a mock user ID
-      // In production, you'd want to get the actual user ID
-      return 'demo_user_id';
+      console.log('⚠️  User already exists, using mock user ID...');
+      return 'demo_user_sofia';
+    } else if (error.code === 'auth/operation-not-allowed') {
+      console.log('⚠️  Email/Password auth not enabled in Firebase Console');
+      console.log('   Please enable it at: Firebase Console → Authentication → Sign-in method');
+      console.log('   Using mock user ID for now...');
+      return 'demo_user_sofia';
     }
     throw error;
   }
