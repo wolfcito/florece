@@ -12,6 +12,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "clean": "rm -rf .next node_modules/.cache",
+    "seed-demo": "tsx scripts/seed-demo.ts",
     "postinstall": "echo \"✅ Dependencies installed with pnpm\""
   },
   "dependencies": {
@@ -31,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   },
   "packageManager": "pnpm@9.15.0",
