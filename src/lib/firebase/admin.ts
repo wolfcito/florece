@@ -48,8 +48,8 @@ export function initializeFirebaseAdmin() {
       );
     }
 
-    // Use default database
-    db = getFirestore(adminApp);
+    // Use named database
+    db = getFirestore(adminApp, 'florecer-app-db');
     storage = getStorage(adminApp);
     auth = getAuth(adminApp);
 
