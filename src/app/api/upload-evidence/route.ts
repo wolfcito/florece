@@ -39,6 +39,22 @@ import { verifyAuthToken, getFirebaseAdmin } from '@/lib/firebase/admin';
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 const ALLOWED_FILE_TYPES = ['image', 'audio', 'document'];
 
+/**
+ * Get content type for signed URL based on file type
+ */
+function getContentType(fileType: string): string {
+  switch (fileType) {
+    case 'image':
+      return 'image/*';
+    case 'audio':
+      return 'audio/*';
+    case 'document':
+      return 'application/pdf';
+    default:
+      return 'application/octet-stream';
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Verify authentication
@@ -71,25 +87,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Implement signed URL generation for Firebase Storage
-    // TODO: Create evidence document in Firestore
-
-    const { db } = getFirebaseAdmin();
+    const { db, storage } = getFirebaseAdmin();
     const evidenceRef = db.collection('evidence').doc();
-    const fileUrl = `gs://bucket/evidence/${userId}/${evidenceRef.id}/${fileName}`;
 
+    // Generate unique file path in Storage
+    const storagePath = `evidence/${userId}/${evidenceRef.id}/${fileName}`;
+    const bucket = storage.bucket();
+    const file = bucket.file(storagePath);
+
+    // Generate signed upload URL (valid for 15 minutes)
+    const [uploadUrl] = await file.getSignedUrl({
+      version: 'v4',
+      action: 'write',
+      expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+      contentType: getContentType(fileType),
+    });
+
+    // Final file URL (gs:// format for internal use)
+    const fileUrl = `gs://${bucket.name}/${storagePath}`;
+
+    // Create evidence document
     await evidenceRef.set({
       actionId,
       caseId,
       userId,
       fileUrl,
+      storagePath,
       fileType,
+      fileName,
+      fileSize,
       uploadedAt: new Date(),
       verificationStatus: 'pending',
     });
-
-    // TODO: Generate actual signed upload URL
-    const uploadUrl = fileUrl; // Placeholder
 
     return NextResponse.json({
       success: true,

@@ -15,6 +15,7 @@ import { generatePlan } from '@/tools/generatePlan';
 import { createReceipt } from '@/tools/createReceipt';
 import { recommendSuppliers } from '@/tools/recommendSuppliers';
 import { publishVenture } from '@/tools/publishVenture';
+import { verifyEvidence } from '@/tools/verifyEvidence';
 
 export interface ToolDefinition {
   name: string;
@@ -222,8 +223,39 @@ export const toolRegistry: Record<string, ToolDefinition> = {
     requiresAuth: true,
   },
 
-  // TODO: Register evidence verification tools (E4)
-  // - verifyEvidence (Issues #3, #4 - not started)
+  verifyEvidence: {
+    name: 'verifyEvidence',
+    description: 'Verify uploaded evidence (image, audio, or document) using Gemini Vision/Audio analysis. Analyzes if the evidence matches the action requirements and returns verification result with confidence score.',
+    parameters: {
+      type: 'object',
+      properties: {
+        actionId: {
+          type: 'string',
+          description: 'ID of the action being verified',
+        },
+        evidenceId: {
+          type: 'string',
+          description: 'ID of the evidence document',
+        },
+        fileUrl: {
+          type: 'string',
+          description: 'Firebase Storage URL of the uploaded file (gs://bucket/path format)',
+        },
+        fileType: {
+          type: 'string',
+          description: 'Type of file: image, audio, or document',
+          enum: ['image', 'audio', 'document'],
+        },
+        actionDescription: {
+          type: 'string',
+          description: 'Description of what the action requires as evidence',
+        },
+      },
+      required: ['actionId', 'evidenceId', 'fileUrl', 'fileType', 'actionDescription'],
+    },
+    handler: verifyEvidence,
+    requiresAuth: true,
+  },
 };
 
 /**
