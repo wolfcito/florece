@@ -1,6 +1,43 @@
 # Project Status - florece
 
 **Last Updated:** 2026-02-06
+**Session:** Insights Report Implementation
+
+## 🎯 Latest Improvements (2026-02-06)
+
+### Insights Report Implementation
+Based on Claude Code usage analytics (945 messages, 104 sessions), implemented key improvements:
+
+1. **✅ CLAUDE.md Created**
+   - Package manager enforcement (pnpm only)
+   - Git & PR workflow rules
+   - Context discipline guidelines
+   - TypeScript/ES modules best practices
+   - Execution bias (action over planning)
+   - Location: `.claude/CLAUDE.md`
+
+2. **✅ /pr Skill Created**
+   - Auto-generates PR descriptions
+   - Text output only (no execution)
+   - Follows project conventions
+   - Location: `.claude/skills/pr.md`
+
+3. **✅ Hooks Configured**
+   - PostToolUse: Type-check after Edit/Write
+   - Catches TypeScript errors early
+   - Location: `.claude/settings.local.json`
+
+4. **✅ Package.json Scripts Added**
+   - `type-check`: TypeScript validation
+   - `format`: Code formatting
+   - `clean`: Cache cleanup
+   - Better development workflow
+
+### Key Friction Points Addressed
+- ❌ **Wrong tooling** → ✅ Explicit pnpm requirement in CLAUDE.md
+- ❌ **Buggy code** → ✅ Automatic type-checking hooks
+- ❌ **Context mixing** → ✅ Context discipline rules
+- ❌ **Over-planning** → ✅ Execution bias guidelines
 
 ## ✅ What's Complete
 
