@@ -7,7 +7,7 @@ export type ActionStatus = 'pending' | 'in_progress' | 'completed' | 'verified';
 export type EvidenceVerificationStatus = 'pending' | 'approved' | 'rejected';
 export type FileType = 'image' | 'audio' | 'document';
 export type EventType = 'diagnostic' | 'plan_created' | 'action_completed';
-export type AgentRunStatus = 'running' | 'completed' | 'failed';
+export type AgentRunStatus = 'running' | 'completed' | 'failed' | 'partial';
 export type Urgency = 'low' | 'medium' | 'high';
 export type Priority = 'high' | 'medium' | 'low';
 

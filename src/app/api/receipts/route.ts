@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
       .where('status', '==', 'verified')
       .get();
 
-    const completedActionIds = actionsSnapshot.docs.map((doc) => doc.id);
+    const completedActionIds = actionsSnapshot.docs.map((doc: any) => doc.id);
 
     // Create receipt
     const result = await createReceipt(
