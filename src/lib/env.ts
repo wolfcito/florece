@@ -88,19 +88,30 @@ export function isDevelopment(): boolean {
  * Check if Firebase emulators should be used
  */
 export function useEmulators(): boolean {
-  return getClientEnv('NEXT_PUBLIC_USE_EMULATORS', 'false') === 'true';
+  return process.env.NEXT_PUBLIC_USE_EMULATORS === 'true';
 }
 
 /**
  * Get all Firebase client config as an object
+ *
+ * Uses static process.env references so Next.js/Turbopack can inline
+ * the values at compile time. Dynamic access (process.env[key]) does NOT
+ * work for NEXT_PUBLIC_* variables on the client side.
  */
 export function getFirebaseClientConfig() {
-  return {
-    apiKey: getClientEnv('NEXT_PUBLIC_FIREBASE_API_KEY'),
-    authDomain: getClientEnv('NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN'),
-    projectId: getClientEnv('NEXT_PUBLIC_FIREBASE_PROJECT_ID'),
-    storageBucket: getClientEnv('NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET'),
-    messagingSenderId: getClientEnv('NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID'),
-    appId: getClientEnv('NEXT_PUBLIC_FIREBASE_APP_ID'),
-  };
+  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+  const authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN;
+  const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+  const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
+  const messagingSenderId = process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID;
+  const appId = process.env.NEXT_PUBLIC_FIREBASE_APP_ID;
+
+  if (!apiKey || !authDomain || !projectId || !storageBucket || !messagingSenderId || !appId) {
+    throw new Error(
+      'Missing Firebase client environment variables. ' +
+      'Ensure NEXT_PUBLIC_FIREBASE_* vars are set in .env.local'
+    );
+  }
+
+  return { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId };
 }
