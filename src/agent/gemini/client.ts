@@ -35,11 +35,12 @@ export function initializeGeminiClient(): GoogleGenerativeAI {
     return genAI;
   }
 
-  const apiKey = getServerEnv('GEMINI_API_KEY', undefined);
-  const vertexProjectId = getServerEnv('VERTEX_PROJECT_ID', undefined);
+  // Try to get API key from env (optional)
+  const apiKey = process.env.GEMINI_API_KEY;
+  const vertexProjectId = process.env.VERTEX_PROJECT_ID;
 
   if (!apiKey && !vertexProjectId) {
-    throw new Error('Must set either GEMINI_API_KEY or VERTEX_PROJECT_ID');
+    throw new Error('Must set either GEMINI_API_KEY or VERTEX_PROJECT_ID in environment variables');
   }
 
   // For MVP, use direct API key approach
@@ -70,7 +71,7 @@ export async function sendMessage(
 
     // Configure model with system prompt and tools
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash', // Fast and cost-effective for MVP
+      model: 'models/gemini-2.5-flash', // Latest model with best function calling support
       systemInstruction: systemPrompt,
       tools: tools.length > 0 ? [{ functionDeclarations: tools }] : undefined,
     });
@@ -132,7 +133,7 @@ export async function sendFunctionResults(
 
     // Configure model with same settings as original call
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'models/gemini-2.5-flash',
       systemInstruction: systemPrompt,
       tools: tools.length > 0 ? [{ functionDeclarations: tools }] : undefined,
     });
