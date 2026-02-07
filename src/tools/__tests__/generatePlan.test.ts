@@ -21,7 +21,7 @@ describe('generatePlan', () => {
       expect(result.data).toBeDefined();
 
       if (result.success) {
-        const plan = result.data;
+        const plan = result.data!;
 
         // Verify plan ID format
         expect(plan.planId).toMatch(/^plan_\d+_test_case$/);
@@ -69,7 +69,7 @@ describe('generatePlan', () => {
 
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.totalEstimatedHours).toBe(14); // 2 * 7
+        expect(result.data!.totalEstimatedHours).toBe(14); // 2 * 7
       }
     });
 
@@ -84,7 +84,7 @@ describe('generatePlan', () => {
 
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.totalEstimatedHours).toBe(56); // 8 * 7
+        expect(result.data!.totalEstimatedHours).toBe(56); // 8 * 7
       }
     });
   });
@@ -101,12 +101,12 @@ describe('generatePlan', () => {
 
       expect(result.success).toBe(true);
       if (result.success) {
-        const plan = result.data;
+        const plan = result.data!;
 
-        // Day 1 should focus on validation
-        expect(plan.days[0].focus).toContain('Validación');
+        // Day 1 should focus on Research & Validation
+        expect(plan.days[0].focus).toContain('Research & Validation');
 
-        // Each day should have 2-4 actions (reasonable for MVP)
+        // Each day should have 1-5 actions (reasonable for MVP)
         plan.days.forEach((day) => {
           expect(day.actions.length).toBeGreaterThanOrEqual(1);
           expect(day.actions.length).toBeLessThanOrEqual(5);
@@ -130,7 +130,7 @@ describe('generatePlan', () => {
 
       expect(result.success).toBe(true);
       if (result.success) {
-        const day1Actions = result.data.days[0].actions;
+        const day1Actions = result.data!.days[0].actions;
         const highPriorityCount = day1Actions.filter((a) => a.priority === 'high').length;
 
         // Day 1 should have at least one high priority action
@@ -167,7 +167,7 @@ describe('generatePlan', () => {
       expect(result.error?.code).toBe('INVALID_INPUT');
     });
 
-    it('should return error for zero or negative hours', async () => {
+    it('should return error for zero hours', async () => {
       const input = {
         productDescription: 'Test product',
         targetMarket: 'Test market',
