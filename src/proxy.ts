@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 /**
- * Middleware to protect routes
+ * Proxy to protect routes
  *
  * Public routes: /, /login
  * Protected routes: /diagnostic, /plan/*, /actions/*, /receipts/*, /api/* (except /api/test-agent)
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Public routes - always allow
@@ -52,7 +52,7 @@ export function middleware(request: NextRequest) {
 }
 
 /**
- * Configure which routes use this middleware
+ * Configure which routes use this proxy
  */
 export const config = {
   matcher: [
