@@ -23,7 +23,7 @@ let auth: Auth;
 export function initializeFirebaseAdmin() {
   if (getApps().length === 0) {
     const projectId = getServerEnv('FIREBASE_PROJECT_ID');
-    const credentialsJson = getServerEnv('FIREBASE_ADMIN_CREDENTIALS', undefined);
+    const credentialsJson = process.env.FIREBASE_ADMIN_CREDENTIALS;
 
     if (credentialsJson) {
       // Use credentials from environment variable (JSON string)
@@ -48,6 +48,7 @@ export function initializeFirebaseAdmin() {
       );
     }
 
+    // Use default database
     db = getFirestore(adminApp);
     storage = getStorage(adminApp);
     auth = getAuth(adminApp);

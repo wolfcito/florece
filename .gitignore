@@ -55,3 +55,4 @@ ui-debug.log
 
 # Keep .env.example but ignore all other env files
 !.env.example
+config/*.json

@@ -11,6 +11,10 @@
 import type { ToolResult } from '@/types/tools';
 import { computeUnitEconomics } from '@/tools/computeUnitEconomics';
 import { createActions } from '@/tools/createActions';
+import { generatePlan } from '@/tools/generatePlan';
+import { createReceipt } from '@/tools/createReceipt';
+import { recommendSuppliers } from '@/tools/recommendSuppliers';
+import { publishVenture } from '@/tools/publishVenture';
 
 export interface ToolDefinition {
   name: string;
@@ -111,11 +115,114 @@ export const toolRegistry: Record<string, ToolDefinition> = {
     requiresAuth: true,
   },
 
-  // TODO: Register remaining tools as they're completed
-  // - generatePlan (Issue #28 - partial)
-  // - createReceipt (Issue #30 - partial)
-  // - publishVenture (Issue #31 - partial)
-  // - recommendSuppliers (Issue #32 - partial)
+  generatePlan: {
+    name: 'generatePlan',
+    description: 'Generate a structured 7-day action plan for a new business venture based on product description, target market, and available time. Returns a complete plan with daily actions, goals, and time estimates.',
+    parameters: {
+      type: 'object',
+      properties: {
+        productDescription: {
+          type: 'string',
+          description: 'Description of the product or service the user wants to create',
+        },
+        targetMarket: {
+          type: 'string',
+          description: 'Description of the target customer or market segment',
+        },
+        availableHoursPerDay: {
+          type: 'number',
+          description: 'How many hours per day the user can dedicate to this venture',
+        },
+      },
+      required: ['productDescription', 'targetMarket', 'availableHoursPerDay'],
+    },
+    handler: generatePlan,
+    requiresAuth: true,
+  },
+
+  createReceipt: {
+    name: 'createReceipt',
+    description: 'Generate a completion certificate/receipt summarizing completed actions and progress. Creates a motivational message based on completion rate.',
+    parameters: {
+      type: 'object',
+      properties: {
+        caseId: {
+          type: 'string',
+          description: 'ID of the user case/venture',
+        },
+        userId: {
+          type: 'string',
+          description: 'ID of the user',
+        },
+        planId: {
+          type: 'string',
+          description: 'ID of the plan to create receipt for',
+        },
+        completedActionIds: {
+          type: 'array',
+          description: 'Array of action IDs that have been completed',
+          items: {
+            type: 'string',
+          },
+        },
+      },
+      required: ['caseId', 'userId', 'planId', 'completedActionIds'],
+    },
+    handler: createReceipt,
+    requiresAuth: true,
+  },
+
+  recommendSuppliers: {
+    name: 'recommendSuppliers',
+    description: 'Recommend suppliers, platforms, or resources based on product type, location, and budget. Useful for finding materials, tools, or services needed for the venture.',
+    parameters: {
+      type: 'object',
+      properties: {
+        productType: {
+          type: 'string',
+          description: 'Type of product or service (e.g., "physical product", "digital service")',
+        },
+        location: {
+          type: 'string',
+          description: 'User location or target market location',
+        },
+        budget: {
+          type: 'number',
+          description: 'Available budget for sourcing/supplies',
+        },
+      },
+      required: ['productType', 'location', 'budget'],
+    },
+    handler: recommendSuppliers,
+    requiresAuth: true,
+  },
+
+  publishVenture: {
+    name: 'publishVenture',
+    description: 'Create a public shareable page for the venture. Generates URL and social media copy for sharing the business idea.',
+    parameters: {
+      type: 'object',
+      properties: {
+        caseId: {
+          type: 'string',
+          description: 'ID of the case/venture to publish',
+        },
+        productName: {
+          type: 'string',
+          description: 'Name of the product or venture',
+        },
+        description: {
+          type: 'string',
+          description: 'Short description of the venture',
+        },
+      },
+      required: ['caseId', 'productName', 'description'],
+    },
+    handler: publishVenture,
+    requiresAuth: true,
+  },
+
+  // TODO: Register evidence verification tools (E4)
   // - verifyEvidence (Issues #3, #4 - not started)
 };
 

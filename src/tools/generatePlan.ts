@@ -84,7 +84,102 @@ export async function generatePlan(
           },
         ],
       },
-      // Days 3-7 would continue...
+      {
+        day: 3,
+        focus: 'Build MVP',
+        actions: [
+          {
+            title: 'Create MVP prototype',
+            description: 'Build the simplest version possible - focus on solving the core problem',
+            estimatedHours: 3,
+            priority: 'high',
+          },
+          {
+            title: 'Test MVP with 2 customers',
+            description: 'Show your prototype to 2 people from your list and get feedback',
+            estimatedHours: 1,
+            priority: 'high',
+          },
+        ],
+      },
+      {
+        day: 4,
+        focus: 'First Sales Attempt',
+        actions: [
+          {
+            title: 'Prepare sales pitch',
+            description: 'Create a simple 1-minute pitch explaining your product and asking for a sale',
+            estimatedHours: 1,
+            priority: 'high',
+          },
+          {
+            title: 'Attempt first 3 sales',
+            description: 'Reach out to 3 potential customers and try to close your first sales',
+            estimatedHours: 3,
+            priority: 'high',
+          },
+        ],
+      },
+      {
+        day: 5,
+        focus: 'Learn & Iterate',
+        actions: [
+          {
+            title: 'Analyze feedback from first sales attempts',
+            description: 'Review what worked, what didn\'t, and what objections you received',
+            estimatedHours: 1,
+            priority: 'high',
+          },
+          {
+            title: 'Make quick improvements',
+            description: 'Adjust your product, pitch, or pricing based on customer feedback',
+            estimatedHours: 2,
+            priority: 'high',
+          },
+        ],
+      },
+      {
+        day: 6,
+        focus: 'Scale Attempts',
+        actions: [
+          {
+            title: 'Reach out to 10 more prospects',
+            description: 'Contact 10 new potential customers with your improved pitch',
+            estimatedHours: 2,
+            priority: 'high',
+          },
+          {
+            title: 'Document your process',
+            description: 'Write down what works so you can repeat it or teach someone else',
+            estimatedHours: 1,
+            priority: 'medium',
+          },
+        ],
+      },
+      {
+        day: 7,
+        focus: 'Decide Next Steps',
+        actions: [
+          {
+            title: 'Review results and metrics',
+            description: 'Count how many sales you made, revenue generated, and lessons learned',
+            estimatedHours: 1,
+            priority: 'high',
+          },
+          {
+            title: 'Make go/no-go decision',
+            description: 'Decide if you should continue with this idea, pivot, or try something else',
+            estimatedHours: 1,
+            priority: 'high',
+          },
+          {
+            title: 'Plan next 7 days if continuing',
+            description: 'If moving forward, create a plan for week 2 based on what you learned',
+            estimatedHours: 1,
+            priority: 'medium',
+          },
+        ],
+      },
     ],
     totalEstimatedHours: input.availableHoursPerDay * 7,
   };
