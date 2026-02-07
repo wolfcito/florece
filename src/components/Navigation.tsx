@@ -1,8 +1,9 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ReactElement } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface NavItem {
   name: string;
@@ -12,6 +13,17 @@ interface NavItem {
 
 export default function Navigation() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, signOut } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      router.push('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
   const navItems: NavItem[] = [
     {
@@ -137,6 +149,29 @@ export default function Navigation() {
               </Link>
             );
           })}
+
+          {/* Logout button (only when authenticated) */}
+          {user && (
+            <button
+              onClick={handleLogout}
+              className="flex flex-col items-center justify-center min-w-[64px] py-2 px-3 rounded-lg transition-colors text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+              <span className="text-xs mt-1 font-medium">Salir</span>
+            </button>
+          )}
         </div>
       </div>
 

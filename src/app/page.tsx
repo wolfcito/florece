@@ -1,6 +1,10 @@
+'use client';
+
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Home() {
+  const { user, loading } = useAuth();
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-gray-900">
       {/* Hero Section */}
@@ -59,28 +63,58 @@ export default function Home() {
 
           {/* CTA */}
           <div className="pt-8">
-            <Link
-              href="/diagnostic"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 transition-colors shadow-lg hover:shadow-xl"
-            >
-              Comenzar mi diagnóstico
-              <svg
-                className="ml-2 w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
-            </Link>
-            <p className="mt-4 text-sm text-gray-500 dark:text-gray-500">
-              Solo toma 5 minutos • Completamente gratuito
-            </p>
+            {!loading && (
+              <>
+                {user ? (
+                  <Link
+                    href="/diagnostic"
+                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 transition-colors shadow-lg hover:shadow-xl"
+                  >
+                    Continuar mi plan
+                    <svg
+                      className="ml-2 w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </Link>
+                ) : (
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Link
+                      href="/login"
+                      className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 transition-colors shadow-lg hover:shadow-xl"
+                    >
+                      Comenzar mi diagnóstico
+                      <svg
+                        className="ml-2 w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 7l5 5m0 0l-5 5m5-5H6"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
+                )}
+                <p className="mt-4 text-sm text-gray-500 dark:text-gray-500">
+                  {user
+                    ? '¡Bienvenido de vuelta!'
+                    : 'Solo toma 5 minutos • Completamente gratuito'}
+                </p>
+              </>
+            )}
           </div>
         </div>
       </main>
